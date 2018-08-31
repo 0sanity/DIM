@@ -11,6 +11,7 @@ import { PercentWidth, percent } from './dimPercentWidth.directive';
 import { StorePagerComponent } from './store-pager.component';
 import { react2angular } from 'react2angular';
 import ClearNewItems from './ClearNewItems';
+import ItemIcon from './item-icon';
 
 export default module('inventoryModule', [])
   .component('dimStores', StoresComponent)
@@ -22,6 +23,7 @@ export default module('inventoryModule', [])
   .component('dimSimpleItem', SimpleItemComponent)
   .component('dimClearNewItems', react2angular(ClearNewItems, ['account']))
   .component('dimStoreItem', StoreItemComponent)
+  .component('itemIcon', react2angular(ItemIcon, ['item']))
   .directive('dimPercentWidth', PercentWidth)
   .filter('tagIcon', tagIconFilter)
   .filter('percent', () => percent)
