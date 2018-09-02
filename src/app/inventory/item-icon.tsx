@@ -31,10 +31,21 @@ export default class ItemIcon extends React.Component<Props, State> {
       backgroundImage: `url('https://www.bungie.net${ item.icon }')`
     };
 
+    let className = `forsaken-item ${item.dmg}`;
+
+    if (item.masterwork) {
+      className = className + ' masterwork';
+    }
+
+    if (item.isExotic) {
+      className = className + ' exotic';
+    }
+
     return (
-      <div className="forsaken-item">
+      <div className={className}>
         <div className='Image'>
           <div className="image-well" style={styles} />
+          <div className='overlay'/>
         </div>
         <div className='Plugs'>
           <div className='area-overlap 1p'/>
@@ -43,7 +54,7 @@ export default class ItemIcon extends React.Component<Props, State> {
         </div>
         <div className='Attributes'>
           <div className='area-overlap 1a' />
-          <div className='2a'><div>{item.primStat && item.primStat.value}</div></div>
+          <div className='2a'><div className='power'>{item.primStat && item.primStat.value}</div></div>
         </div>
       </div>
     );

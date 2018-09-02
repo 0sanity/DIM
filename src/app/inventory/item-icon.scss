@@ -13,6 +13,7 @@ item-icon {
     grid-template-areas: "Image Image Image Plugs" "Image Image Image Plugs" "Image Image Image Plugs" "Attributes Attributes Attributes Attributes";
 
     .image-well {
+      background: rgba(183, 183, 183, .2);
       width: 100%;
       height: 100%;
       background-size: 100%;
@@ -21,8 +22,33 @@ item-icon {
   }
 }
 
+.overlay {
+  border: 1px solid rgba(183, 183, 183, .2);
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.masterwork .overlay {
+  border-width: 0px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-image: url('../../images/masterwork.png');
+}
+
+.exotic.masterwork .overlay {
+  border-width: 0px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-image: url('../../images/exotic-masterwork.png');
+}
+
+
 .Image {
   grid-area: Image;
+  position: relative;
 }
 .Plugs {
   display: grid;
@@ -46,16 +72,70 @@ item-icon {
 .Attributes {
   display: grid;
   grid-area: Attributes;
-  grid-template-columns: 1fr 1fr;
+  // grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr;
   grid-gap: 1% 1%;
   grid-template-areas: "1a 2a";
+  line-height: calc(var(--item-size) / 4);
+}
+.Attributes > div {
+  text-align: right;
 }
 .1a {
-  background-color: blue;
   grid-area: 1a;
 }
 .2a {
-  background-color: blue;
   grid-area: 2a;
+}
+
+.power {
+  text-align: right;
+  display: inline-block;
+  margin-right: 2px;
+}
+
+.void .power {
+  color: #8765bb;
+}
+
+.arc .power {
+  color: #80d6ff;
+}
+
+.solar .power {
+  color: #ff8d00;
+}
+
+.void .power::before {
+  margin-right: 1px;
+  margin-top: 3px;
+ float: left;
+ width: 8px;
+ height: 8px;
+  content: '';
+  filter: brightness(200%);
+  background-size: 100%;
+  background-image: url(https://www.bungie.net/img/destiny_content/damage_types/destiny2/void_large.png);
+}
+
+.solar .power::before {
+  margin-right: 1px;
+  margin-top: 3px;
+ float: left;
+ width: 8px;
+ height: 8px;
+  content: '';
+  background-size: 100%;
+  background-image: url(https://bungie.net/img/destiny_content/damage_types/destiny2/thermal_large.png);
+}
+
+.arc .power::before {
+  margin-right: 1px;
+  margin-top: 3px;
+ float: left;
+ width: 8px;
+ height: 8px;
+  content: '';
+  background-size: 100%;
+  background-image: url(https://bungie.net/img/destiny_content/damage_types/destiny2/arc_large.png);
 }
