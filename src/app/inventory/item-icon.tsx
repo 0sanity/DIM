@@ -1,9 +1,11 @@
 import * as React from 'react';
-import { DimItem } from './item-types';
 import './item-icon.scss';
+import { D2Item } from './item-types';
+import { DestinySocketCategoryStyle } from 'bungie-api-ts/destiny2';
+import BungieImage from '../dim-ui/BungieImage';
 
 interface Props {
-  item: DimItem;
+  item: D2Item;
 }
 
 // tslint:disable-next-line:no-empty-interface
@@ -21,17 +23,20 @@ export default class ItemIcon extends React.Component<Props, State> {
   render() {
     const { item } = this.props;
 
-    if (!item) {
-      return (
-        <div className="forsaken-item">NIF</div>
-      );
+    // if (!item.sockets || !defs) {
+    if (!item || !item.sockets) {
+      return null;
     }
 
     const styles = {
       backgroundImage: `url('https://www.bungie.net${ item.icon }')`
     };
 
-    let className = `forsaken-item ${item.dmg}`;
+    let className = `forsaken-item`;
+
+    if (item.dmg) {
+      className = className + ` ${item.dmg}`;
+    }
 
     if (item.masterwork) {
       className = className + ' masterwork';
@@ -41,22 +46,49 @@ export default class ItemIcon extends React.Component<Props, State> {
       className = className + ' exotic';
     }
 
+    const category = item.sockets.categories
+      .find((category) => category.category.categoryStyle === DestinySocketCategoryStyle.Consumable);
+
     return (
       <div className={className}>
-        <div className='Image'>
+        <div className='image'>
           <div className="image-well" style={styles} />
           <div className='overlay'/>
         </div>
-        <div className='Plugs'>
-          <div className='area-overlap 1p'/>
-          <div className='2p'/>
-          <div className='3p'/>
+        <div className='plugs'>
+          { category && category.sockets.map((socketInfo, index) => {
+              if (index > 2) {
+                return null;
+              }
+
+              return <div key={socketInfo.socketIndex} className={`plug-${index + 1}`}>
+                {socketInfo.plug && category.category.categoryStyle !== DestinySocketCategoryStyle.Reusable &&
+                  <BungieImage
+                    className="item-mod"
+                    src={socketInfo.plug.plugItem.displayProperties.icon}
+                  />
+                }
+                </div>;
+            })
+          }
+          {/* <div className='area-overlap plug-1'/>
+          <div className='plug-2'/>
+          <div className='plug-3'/> */}
         </div>
-        <div className='Attributes'>
-          <div className='area-overlap 1a' />
-          <div className='2a'><div className='power'>{item.primStat && item.primStat.value}</div></div>
+        <div className='attributes'>
+          <div className='area-overlap attribute-1' />
+          <div className='attribute-2'>
+            <div className='power'>{item.primStat && item.primStat.value}</div></div>
         </div>
       </div>
     );
   }
+
+  // mapSocketsToImages(sockets: DimSockets) {
+  //   if (sockets && sockets.sockets) {
+  //     sockets.sockets
+  //       .find((socket) => socket.plug)
+  //       .map((socket) => {});
+  //   }
+  // }
 }
