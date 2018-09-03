@@ -24,7 +24,7 @@ export default class ItemIcon extends React.Component<Props, State> {
     const { item } = this.props;
 
     // if (!item.sockets || !defs) {
-    if (!item || !item.sockets) {
+    if (!item) {
       return null;
     }
 
@@ -46,7 +46,7 @@ export default class ItemIcon extends React.Component<Props, State> {
       className = className + ' exotic';
     }
 
-    const category = item.sockets.categories
+    const category = item.sockets && item.sockets.categories
       .find((category) => category.category.categoryStyle === DestinySocketCategoryStyle.Consumable);
 
     return (
